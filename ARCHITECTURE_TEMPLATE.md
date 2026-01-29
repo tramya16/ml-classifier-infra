@@ -198,9 +198,7 @@ Cost fixes were taken in accordance to situation at hand, and aligned with known
 - Deploys to production on push to both `main` **and** `develop` : The dev work can break prod.
 - Uses `terraform apply -auto-approve` : There is  no review of changes, its okay for dev, but is not acceptable for production.
 - Uses `latest` image tag : In case of flawed deployements. This makes it impossible to rollback cleanly.
-- Uses outdated action versions (`checkout@v2`, `setup-terraform@v1`).
-- Uses long-lived AWS access keys — security risk.
-- No tests, linting, validation, or plan approval step.
+- No tests, validation, or plan approval step.
 
 **How I would fix them (changes already partially implemented):**
 - Changed image tag to `${{ github.sha }}` : This allows for a reproducible and rollback-friendly image.
@@ -208,8 +206,6 @@ Cost fixes were taken in accordance to situation at hand, and aligned with known
 
 - **Recommended Improvements (not implemented due to time constraints):**
   - Split workflows: separate files for dev (`develop`) and production (`main`).
-  - Use GitHub Environments for prod approval gates.
-  - Switch to OIDC role assumption (remove access keys).
   - Add `terraform fmt --check`, `terraform validate`, `tflint`, and optional security scanning.
   - Use semantic versioning or git tags for images instead of SHA (for readability).
 
@@ -230,10 +226,10 @@ Cost fixes were taken in accordance to situation at hand, and aligned with known
 - High 5xx errors on ALB
 
 **Observability improvements:**
-- Keep Performance Insights enabled (already done)
+- Keep Performance Insights enabled (This is implemented in fix)
 - Export RDS PostgreSQL logs to CloudWatch
 - Consider Amazon CloudWatch Container Insights for ECS
-- Dashboard in CloudWatch or Grafana showing connection trends + task scaling
+- Dashboard in CloudWatch or Grafana showing connection trends and task scaling
 
 ## Security Remediation
 
@@ -261,5 +257,5 @@ Cost fixes were taken in accordance to situation at hand, and aligned with known
 
 **Remaining risks:**
 - No auto-scaling yet : We have manual desired_count=3 could be inefficient, in case of high traffic or low usage situations
-- No HTTPS on ALB — traffic unencrypted between client and ALB
-- No staging environment separation — still risk if develop branch deploys bugs
+- No HTTPS on ALB : traffic unencrypted between client and ALB
+- No staging environment separation : still risk if develop branch deploys bugs
