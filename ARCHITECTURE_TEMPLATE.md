@@ -183,11 +183,11 @@
 
 I prioritized fixes in this order:
 
-1. **Security first** (Fixes 1,7,8,9,10,11) — public DB, credential exposure, broad IAM, open security groups are immediate breach risks.
+1. **Security first** (Fixes 1,7,8,9,10,11) : public DB, credential exposure, broad IAM, open security groups are immediate breach risks.
 
-2. **Reliability next** (Fixes 2,3,4,6) — backups, Multi-AZ, deletion protection, and observability prevent outages and data loss (directly related to the connection pool incident).
+2. **Reliability next** (Fixes 2,3,4,6) : backups, Multi-AZ, deletion protection, and observability prevent outages and data loss (directly related to the connection pool incident).
 
-3. **Cost optimization** (Fixes 3,5,6,11) — right-sizing DB/ECS and log/S3 lifecycle give large savings without compromising core functionality.
+3. **Cost optimization** (Fixes 3,5,6,11) : right-sizing DB/ECS and log/S3 lifecycle give large savings without compromising core functionality.
 
 Security and reliability had highest impact. 
 Cost fixes were taken in accordance to situation at hand, and aligned with known bill concerns.
